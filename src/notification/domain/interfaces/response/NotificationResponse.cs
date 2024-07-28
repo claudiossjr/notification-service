@@ -1,3 +1,5 @@
+using Notification.Domain.Enums;
+
 namespace Notification.Domain.Interfaces.Response;
 
-public record NotificationResponse(bool HasSucceed, int StatusCode, string? ErroMessage);
+public record NotificationResponse(bool HasSucceed, NotificationResponseCode StatusCode, string? ErroMessage);
