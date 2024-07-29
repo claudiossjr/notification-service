@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\notification\service\Notification.Service.csproj" />
+    <ProjectReference Include="..\..\..\src\notification\domain\exceptions\Notification.Domain.Exceptions.csproj" />
   </ItemGroup>
 
 </Project>

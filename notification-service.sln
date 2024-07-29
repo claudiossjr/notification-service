@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notification.Domain.Enums",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notification.Service", "src\notification\service\Notification.Service.csproj", "{64581224-4E82-4CC8-B419-F01D643B57DD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notification.Domain.Exceptions", "src\notification\domain\exceptions\Notification.Domain.Exceptions.csproj", "{73D6A1D0-A3A1-435A-9953-B1E3FB45D054}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,6 +54,10 @@ Global
 		{64581224-4E82-4CC8-B419-F01D643B57DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64581224-4E82-4CC8-B419-F01D643B57DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64581224-4E82-4CC8-B419-F01D643B57DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73D6A1D0-A3A1-435A-9953-B1E3FB45D054}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73D6A1D0-A3A1-435A-9953-B1E3FB45D054}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73D6A1D0-A3A1-435A-9953-B1E3FB45D054}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73D6A1D0-A3A1-435A-9953-B1E3FB45D054}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{BCD9426C-13D1-40E2-99DE-0CBA5DB47B24} = {21EE6A6A-8B57-4EFC-B74C-B29327F34568}
@@ -62,5 +68,6 @@ Global
 		{CBB91CA0-A532-4D78-9926-3396B082D16A} = {0F1CA2DC-29D9-492D-BAD1-34A6849F1750}
 		{58BDFB87-E1F2-478D-B2B1-9389D7B4DC4B} = {4DD9175F-5F8A-4231-8AC8-E9831F4103A5}
 		{64581224-4E82-4CC8-B419-F01D643B57DD} = {BCD9426C-13D1-40E2-99DE-0CBA5DB47B24}
+		{73D6A1D0-A3A1-435A-9953-B1E3FB45D054} = {4DD9175F-5F8A-4231-8AC8-E9831F4103A5}
 	EndGlobalSection
 EndGlobal
