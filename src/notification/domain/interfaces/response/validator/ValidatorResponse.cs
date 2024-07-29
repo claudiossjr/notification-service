@@ -3,9 +3,10 @@ namespace Notification.Domain.Interfaces.Validator;
 public class ValidatorResponse
 {
     private readonly List<string> _errors = new();
-    public void AddError(string message)
+    public ValidatorResponse AddError(string message)
     {
         _errors.Add(message);
+        return this;
     }
     public string ErrorMessage
     {

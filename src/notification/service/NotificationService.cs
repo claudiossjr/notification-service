@@ -19,7 +19,12 @@ public class NotificationService : INotificationService
     public NotificationResponse Notify(NotificationRequest request)
     {
         ValidatorResponse validatorResponse = _notificationRequestValidator.Validate(request);
+        if (validatorResponse.IsValid == false)
+        {
+            return new(validatorResponse.IsValid, NotificationResponseCode.BadRequest, validatorResponse.ErrorMessage);
+        }
 
-        return new(validatorResponse.IsValid, NotificationResponseCode.BadRequest, validatorResponse.ErrorMessage);
+        return new(false, NotificationResponseCode.Notfound, $"There is no rule for the sender: {request.Sender}");
+
     }
 }
