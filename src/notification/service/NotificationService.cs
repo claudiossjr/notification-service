@@ -1,4 +1,7 @@
-﻿using Notification.Domain.Enums;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
+using Notification.Domain.Entites;
+using Notification.Domain.Enums;
 using Notification.Domain.Exceptions.Cache;
 using Notification.Domain.Interfaces;
 using Notification.Domain.Interfaces.Request;
@@ -22,7 +25,7 @@ public class NotificationService : INotificationService
         _cacheService = cacheService;
     }
 
-    public NotificationResponse Notify(NotificationRequest request)
+    public async Task<NotificationResponse> Notify(NotificationRequest request)
     {
         ValidatorResponse validatorResponse = _notificationRequestValidator.Validate(request);
         if (validatorResponse.IsValid == false)
@@ -30,20 +33,11 @@ public class NotificationService : INotificationService
             return new(validatorResponse.IsValid, NotificationResponseCode.BadRequest, validatorResponse.ErrorMessage);
         }
 
-        CacheResponse? senderRule = null;
+        string senderRuleKey = $"SenderRule:{request.Sender}";
+        NotificationRule? senderRule;
         try
         {
-            senderRule = _cacheService.Find(new($"Rule:{request.Sender}"));
-        }
-        catch (CacheServerOfflineException)
-        {
-            // TODO: log error message
-            return new(false, NotificationResponseCode.FailedDependency, $"Can not send notification message");
-        }
-        CacheResponse? recipientTokenBucket = null;
-        try
-        {
-            recipientTokenBucket = _cacheService.Find(new($"Bucket:{request.Recipient}"));
+            senderRule = await _cacheService.Find<NotificationRule>(new(senderRuleKey));
         }
         catch (CacheServerOfflineException)
         {
@@ -51,7 +45,44 @@ public class NotificationService : INotificationService
             return new(false, NotificationResponseCode.FailedDependency, $"Can not send notification message");
         }
 
-        return new(false, NotificationResponseCode.Notfound, $"There is no rule for the sender: {request.Sender}");
+        if (senderRule == null)
+        {
+            return new(false, NotificationResponseCode.Notfound, $"There is no rule for the sender: {request.Sender}");
+        }
 
+        string recipientTokenBucketKey = $"Bucket:{request.Recipient}";
+
+        NotificationTokenBucket? recipientTokenBucket;
+        try
+        {
+            recipientTokenBucket = await _cacheService.Find<NotificationTokenBucket>(new(recipientTokenBucketKey));
+        }
+        catch (CacheServerOfflineException)
+        {
+            // TODO: log error message
+            return new(false, NotificationResponseCode.FailedDependency, $"Can not send notification message");
+        }
+
+        if (recipientTokenBucket == null)
+        {
+            // Criar TokenBucket
+            recipientTokenBucket = new()
+            {
+                Key = recipientTokenBucketKey,
+                TokensRemaining = senderRule.RateLimit
+            };
+            bool couldCreate = await _cacheService.Create(recipientTokenBucketKey, JsonSerializer.Serialize(recipientTokenBucket), senderRule.TimeSpanInSeconds);
+            if (couldCreate == false)
+            {
+                return await Notify(request);
+            }
+        }
+
+        if (recipientTokenBucket!.TokensRemaining <= 0)
+        {
+            return new(false, NotificationResponseCode.TooManyRequest, "Number of calls exceeded.");
+        }
+
+        return new(true, NotificationResponseCode.Success, string.Empty);
     }
 }

@@ -13,13 +13,22 @@ public class MockCacheService : ICacheService
 
     public int CacheCalls = 0;
 
+    public object?[]? MockReturns { get; set; }
+
     public List<string> KeysSearched { get; set; } = [];
 
-    public CacheResponse Find(CacheRequest request)
+    public Task<TEntity?> Find<TEntity>(CacheRequest request) where TEntity : class
     {
-        CacheCalls++;
         KeysSearched.Add(request.Key);
         if (CanThrowCacheServerOffline) throw new CacheServerOfflineException("mock_cache_service");
-        return new(request.Key, string.Empty);
+
+        TEntity? result = (TEntity?)MockReturns!.ElementAt(CacheCalls);
+        CacheCalls++;
+        return Task.FromResult(result);
+    }
+
+    public Task<bool> Create(string key, string value, long expireInSeconds)
+    {
+        return Task.FromResult(true);
     }
 }

@@ -5,5 +5,5 @@ namespace Notification.Domain.Interfaces;
 
 public interface INotificationService
 {
-    NotificationResponse Notify(NotificationRequest request);
+    Task<NotificationResponse> Notify(NotificationRequest request);
 }

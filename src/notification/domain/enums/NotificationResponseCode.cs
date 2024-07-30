@@ -7,4 +7,5 @@ public enum NotificationResponseCode
     BadRequest = 400,
     Notfound = 404,
     FailedDependency = 424,
+    TooManyRequest = 429
 }
