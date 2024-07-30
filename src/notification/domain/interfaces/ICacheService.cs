@@ -6,5 +6,5 @@ namespace Notification.Domain.Interfaces;
 public interface ICacheService
 {
     Task<CacheResponse<TEntity>?> Find<TEntity>(CacheRequest request) where TEntity : class;
-    Task<bool> Create(string key, string value, long expireInSeconds);
+    Task<bool> Create(string key, string value, long? expireInSeconds);
 }

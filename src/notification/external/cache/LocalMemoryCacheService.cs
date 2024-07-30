@@ -1,3 +1,4 @@
+using System.Net.Cache;
 using System.Text.Json;
 using Microsoft.Extensions.Caching.Memory;
 using Notification.Domain.Interfaces;
@@ -17,25 +18,25 @@ public class LocalMemoryCacheService : ICacheService
         _memoryCache = memoryCache;
     }
 
-    public Task<bool> Create(string key, string value, long expireInSeconds)
+    public Task<bool> Create(string key, string value, long? expireInSeconds)
     {
-        _memoryCache.CreateEntry(key).SetValue(value);
-        // await _memoryCache.GetOrCreateAsync(key, (cacheEntry) =>
-        // {
-        //     cacheEntry.SlidingExpiration = TimeSpan.FromSeconds(expireInSeconds);
-        //     return Task.FromResult(value);
-        // });
+        ICacheEntry cacheEntry = _memoryCache.CreateEntry(key).SetValue(value);
+        if (expireInSeconds.HasValue)
+        {
+            cacheEntry.SetSlidingExpiration(TimeSpan.FromSeconds(expireInSeconds.Value));
+        }
+        _memoryCache.Set(key, cacheEntry);
         return Task.FromResult(true);
     }
 
     public Task<CacheResponse<TEntity>?> Find<TEntity>(CacheRequest request) where TEntity : class
     {
-        bool findInCache = _memoryCache.TryGetValue(request.Key, out object? cachedValue);
+        bool findInCache = _memoryCache.TryGetValue(request.Key, out ICacheEntry? cachedValue);
         if (findInCache == false || cachedValue == null)
         {
             return Task.FromResult<CacheResponse<TEntity>?>(new CacheResponse<TEntity>(request.Key, null));
         }
-        string cacheStr = (string)cachedValue;
+        string cacheStr = cachedValue!.Value!.ToString()!;
         TEntity? entity = JsonSerializer.Deserialize<TEntity>(cacheStr);
         return Task.FromResult<CacheResponse<TEntity>?>(new CacheResponse<TEntity>(request.Key, entity));
     }
