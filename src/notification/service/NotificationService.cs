@@ -1,5 +1,4 @@
 ﻿using System.Text.Json;
-using System.Text.Json.Serialization;
 using Notification.Domain.Entites;
 using Notification.Domain.Enums;
 using Notification.Domain.Exceptions.Cache;
@@ -33,54 +32,66 @@ public class NotificationService : INotificationService
             return new(validatorResponse.IsValid, NotificationResponseCode.BadRequest, validatorResponse.ErrorMessage);
         }
 
+        Task<CacheResponse<NotificationRule>?> findNotificationRuleTask;
+        Task<CacheResponse<NotificationTokenBucket>?> findNotificationTokenBucketTask;
         string senderRuleKey = $"SenderRule:{request.Sender}";
-        NotificationRule? senderRule;
+        string recipientTokenBucketKey = $"Bucket:{request.Recipient}";
         try
         {
-            senderRule = await _cacheService.Find<NotificationRule>(new(senderRuleKey));
+            findNotificationRuleTask = _cacheService.Find<NotificationRule>(new(senderRuleKey));
+            findNotificationTokenBucketTask = _cacheService.Find<NotificationTokenBucket>(new(recipientTokenBucketKey));
         }
         catch (CacheServerOfflineException)
         {
             // TODO: log error message
-            return new(false, NotificationResponseCode.FailedDependency, $"Can not send notification message");
+            return new(false, NotificationResponseCode.FailedDependency, $"Cannot get cached item.");
         }
 
+        NotificationRule? senderRule;
+        CacheResponse<NotificationRule>? ruleResponse = await findNotificationRuleTask;
+        if (ruleResponse == null)
+        {
+            return new(false, NotificationResponseCode.Notfound, $"There is no rule for the sender: {request.Sender}");
+        }
+
+        senderRule = ruleResponse.Value;
         if (senderRule == null)
         {
             return new(false, NotificationResponseCode.Notfound, $"There is no rule for the sender: {request.Sender}");
         }
 
-        string recipientTokenBucketKey = $"Bucket:{request.Recipient}";
-
         NotificationTokenBucket? recipientTokenBucket;
         try
         {
-            recipientTokenBucket = await _cacheService.Find<NotificationTokenBucket>(new(recipientTokenBucketKey));
+            CacheResponse<NotificationTokenBucket>? recipientTokenBucketResponse = await findNotificationTokenBucketTask;
+            if (recipientTokenBucketResponse == null)
+            {
+                // Criar TokenBucket
+                recipientTokenBucket = new()
+                {
+                    Key = recipientTokenBucketKey,
+                    TokensRemaining = senderRule.RateLimit
+                };
+                bool couldCreate = await _cacheService.Create(recipientTokenBucketKey, JsonSerializer.Serialize(recipientTokenBucket), senderRule.TimeSpanInSeconds);
+                if (couldCreate == false)
+                {
+                    return await Notify(request);
+                }
+            }
+            else
+            {
+                recipientTokenBucket = recipientTokenBucketResponse.Value;
+            }
         }
         catch (CacheServerOfflineException)
         {
             // TODO: log error message
-            return new(false, NotificationResponseCode.FailedDependency, $"Can not send notification message");
-        }
-
-        if (recipientTokenBucket == null)
-        {
-            // Criar TokenBucket
-            recipientTokenBucket = new()
-            {
-                Key = recipientTokenBucketKey,
-                TokensRemaining = senderRule.RateLimit
-            };
-            bool couldCreate = await _cacheService.Create(recipientTokenBucketKey, JsonSerializer.Serialize(recipientTokenBucket), senderRule.TimeSpanInSeconds);
-            if (couldCreate == false)
-            {
-                return await Notify(request);
-            }
+            return new(false, NotificationResponseCode.FailedDependency, $"Cannot get cached item.");
         }
 
         if (recipientTokenBucket!.TokensRemaining <= 0)
         {
-            return new(false, NotificationResponseCode.TooManyRequest, "Number of calls exceeded.");
+            return new(false, NotificationResponseCode.TooManyRequest, "Number of calls exceed the limit.");
         }
 
         return new(true, NotificationResponseCode.Success, string.Empty);

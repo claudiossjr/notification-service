@@ -25,6 +25,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notification.Service", "src
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notification.Domain.Exceptions", "src\notification\domain\exceptions\Notification.Domain.Exceptions.csproj", "{73D6A1D0-A3A1-435A-9953-B1E3FB45D054}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "external", "external", "{E12AF6BA-FC3D-44B4-A0BC-5391213E9725}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notification.Cache.Service", "src\notification\external\cache\Notification.Cache.Service.csproj", "{D1B6E2A4-4FDE-4449-80A5-A10455B9AE9D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +62,10 @@ Global
 		{73D6A1D0-A3A1-435A-9953-B1E3FB45D054}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73D6A1D0-A3A1-435A-9953-B1E3FB45D054}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73D6A1D0-A3A1-435A-9953-B1E3FB45D054}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1B6E2A4-4FDE-4449-80A5-A10455B9AE9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1B6E2A4-4FDE-4449-80A5-A10455B9AE9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1B6E2A4-4FDE-4449-80A5-A10455B9AE9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1B6E2A4-4FDE-4449-80A5-A10455B9AE9D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{BCD9426C-13D1-40E2-99DE-0CBA5DB47B24} = {21EE6A6A-8B57-4EFC-B74C-B29327F34568}
@@ -69,5 +77,7 @@ Global
 		{58BDFB87-E1F2-478D-B2B1-9389D7B4DC4B} = {4DD9175F-5F8A-4231-8AC8-E9831F4103A5}
 		{64581224-4E82-4CC8-B419-F01D643B57DD} = {BCD9426C-13D1-40E2-99DE-0CBA5DB47B24}
 		{73D6A1D0-A3A1-435A-9953-B1E3FB45D054} = {4DD9175F-5F8A-4231-8AC8-E9831F4103A5}
+		{E12AF6BA-FC3D-44B4-A0BC-5391213E9725} = {BCD9426C-13D1-40E2-99DE-0CBA5DB47B24}
+		{D1B6E2A4-4FDE-4449-80A5-A10455B9AE9D} = {E12AF6BA-FC3D-44B4-A0BC-5391213E9725}
 	EndGlobalSection
 EndGlobal

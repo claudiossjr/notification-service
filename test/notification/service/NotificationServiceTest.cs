@@ -1,7 +1,7 @@
+using System.Text.Json;
 using Notification.Domain.Entites;
 using Notification.Domain.Enums;
 using Notification.Domain.Interfaces.Request;
-using Notification.Domain.Interfaces.Validator;
 using Notification.Service.Test.Mocks;
 
 namespace Notification.Service.Test;
