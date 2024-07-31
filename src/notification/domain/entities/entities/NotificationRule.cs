@@ -3,7 +3,7 @@ namespace Notification.Domain.Entites;
 public class NotificationRule
 {
     public required string Sender { get; set; }
-    public long RateLimit { get; set; }
-    public long TimeSpanInSeconds { get; set; }
+    public required long RateLimit { get; set; }
+    public required long TimeSpanInSeconds { get; set; }
 
 }

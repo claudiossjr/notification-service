@@ -149,7 +149,7 @@ public class NotificationServiceTest
 
         // Assert
         Assert.Equal(2, mockCacheService.CacheCalls);
-        List<string> expectedKeys = new() { $"SenderRule:{notificationRequest.Sender}", $"Bucket:{notificationRequest.Recipient}" };
+        List<string> expectedKeys = new() { $"SenderRule:{notificationRequest.Sender}", $"Bucket:{notificationRequest.Sender}:{notificationRequest.Recipient}" };
         Assert.Equal(expectedKeys, mockCacheService.KeysSearched);
     }
 

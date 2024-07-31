@@ -1,4 +1,3 @@
-using System.Net.Cache;
 using System.Text.Json;
 using Microsoft.Extensions.Caching.Memory;
 using Notification.Domain.Exceptions.Cache;
@@ -6,7 +5,7 @@ using Notification.Domain.Interfaces;
 using Notification.Domain.Interfaces.Request;
 using Notification.Domain.Interfaces.Response;
 
-namespace Notification.CachedValue.Service;
+namespace Notification.Provider.Cache;
 
 public class LocalMemoryCacheService : ICacheService
 {
@@ -19,22 +18,34 @@ public class LocalMemoryCacheService : ICacheService
         _memoryCache = memoryCache;
     }
 
-    public Task<bool> Create(string key, string value, long? expireInSeconds)
+    public Task<bool> Create(string key, string value, long? expireInSeconds = null)
     {
         try
         {
             ICacheEntry cacheEntry = _memoryCache.CreateEntry(key).SetValue(value);
             if (expireInSeconds.HasValue)
             {
-                cacheEntry.SetSlidingExpiration(TimeSpan.FromSeconds(expireInSeconds.Value));
+                _memoryCache.Set(key, cacheEntry, TimeSpan.FromSeconds(expireInSeconds.Value));
             }
-            _memoryCache.Set(key, cacheEntry);
+            else
+            {
+                _memoryCache.Set(key, cacheEntry);
+            }
             return Task.FromResult(true);
         }
         catch (Exception ex)
         {
             throw new CacheServerOfflineException($"Local Memory Server {ex.Message}");
         }
+    }
+
+    public Task<bool> DecreaseValue(string key)
+    {
+        ICacheEntry? cacheEntry = _memoryCache.Get<ICacheEntry>(key);
+        long value = long.Parse(cacheEntry!.Value!.ToString()!);
+        value -= 1;
+        cacheEntry.Value = value;
+        return Task.FromResult(true);
     }
 
     public Task<CacheResponse<TEntity>?> Find<TEntity>(CacheRequest request) where TEntity : class
@@ -54,5 +65,11 @@ public class LocalMemoryCacheService : ICacheService
         {
             throw new CacheServerOfflineException($"Local Memory Server {ex.Message}");
         }
+    }
+
+    public Task<string?> Find(CacheRequest request)
+    {
+        bool findInCache = _memoryCache.TryGetValue(request.Key, out ICacheEntry? cachedValue);
+        return Task.FromResult(cachedValue?.Value?.ToString());
     }
 }

@@ -35,7 +35,7 @@ public class NotificationService : INotificationService
         Task<CacheResponse<NotificationRule>?> findNotificationRuleTask;
         Task<CacheResponse<NotificationTokenBucket>?> findNotificationTokenBucketTask;
         string senderRuleKey = $"SenderRule:{request.Sender}";
-        string recipientTokenBucketKey = $"Bucket:{request.Recipient}";
+        string recipientTokenBucketKey = $"Bucket:{request.Sender}:{request.Recipient}";
         try
         {
             findNotificationRuleTask = _cacheService.Find<NotificationRule>(new(senderRuleKey));

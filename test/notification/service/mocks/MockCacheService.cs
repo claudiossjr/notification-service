@@ -26,8 +26,18 @@ public class MockCacheService : ICacheService
         return Task.FromResult<CacheResponse<TEntity>?>(new(request.Key, result));
     }
 
-    public Task<bool> Create(string key, string value, long? expireInSeconds)
+    public Task<bool> Create(string key, string value, long? expireInSeconds = null)
     {
         return Task.FromResult(true);
+    }
+
+    public Task<bool> DecreaseValue(string key)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<string?> Find(CacheRequest request)
+    {
+        throw new NotImplementedException();
     }
 }
