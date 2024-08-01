@@ -100,12 +100,11 @@ public class LocalMemoryCacheServiceTest
     public async void ShouldDecrementValueIfKeyExists()
     {
         string searchKey = "test";
-        long expirationTime = 2;
+        long expirationTime = 1;
         await _sut.Create("test", "2", expirationTime);
 
         string? response = await _sut.Find(new CacheRequest(searchKey));
-        await _sut.DecreaseValue(searchKey);
-        string? decreasedResponse = await _sut.Find(new CacheRequest(searchKey));
+        string? decreasedResponse = await _sut.DecreaseValue(searchKey);
         await Task.Delay(TimeSpan.FromSeconds(expirationTime));
         string? expiredResponse = await _sut.Find(new CacheRequest(searchKey));
 

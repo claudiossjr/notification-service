@@ -8,5 +8,5 @@ public interface ICacheService
     Task<string?> Find(CacheRequest request);
     Task<CacheResponse<TEntity>?> Find<TEntity>(CacheRequest request) where TEntity : class;
     Task<bool> Create(string key, string value, long? expireInSeconds = null);
-    Task<bool> DecreaseValue(string key);
+    Task<string?> DecreaseValue(string key);
 }

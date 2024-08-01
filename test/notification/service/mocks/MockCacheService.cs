@@ -10,9 +10,11 @@ public class MockCacheService : ICacheService
 
     public bool CanThrowCacheServerOffline { get; set; } = false;
 
-    public int CacheCalls = 0;
+    public int CacheFindCalls { get; set; } = 0;
+    public int CacheCreateCalls { get; set; } = 0;
+    public int CacheDecreaseCalls { get; set; } = 0;
 
-    public List<object>? MockReturns { get; set; }
+    public Dictionary<string, object?>? MockReturns { get; set; }
 
     public List<string> KeysSearched { get; set; } = [];
 
@@ -20,24 +22,29 @@ public class MockCacheService : ICacheService
     {
         KeysSearched.Add(request.Key);
         if (CanThrowCacheServerOffline) throw new CacheServerOfflineException("mock_cache_service");
-
-        TEntity result = (TEntity)MockReturns!.ElementAt(CacheCalls);
-        CacheCalls++;
+        MockReturns!.TryGetValue(request.Key, out object? dictValue);
+        TEntity? result = (TEntity?)dictValue;
+        CacheFindCalls++;
         return Task.FromResult<CacheResponse<TEntity>?>(new(request.Key, result));
     }
 
     public Task<bool> Create(string key, string value, long? expireInSeconds = null)
     {
+        CacheCreateCalls++;
         return Task.FromResult(true);
-    }
-
-    public Task<bool> DecreaseValue(string key)
-    {
-        throw new NotImplementedException();
     }
 
     public Task<string?> Find(CacheRequest request)
     {
-        throw new NotImplementedException();
+        KeysSearched.Add(request.Key);
+        CacheFindCalls++;
+        return Task.FromResult(MockReturns?[request.Key]?.ToString());
+    }
+
+    async Task<string?> ICacheService.DecreaseValue(string key)
+    {
+        CacheDecreaseCalls++;
+        string? returnValue = await Find(new CacheRequest(key));
+        return returnValue;
     }
 }

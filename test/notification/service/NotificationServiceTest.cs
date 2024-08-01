@@ -15,6 +15,7 @@ public class NotificationServiceTest
     {
         // Arrange
         MockNotificationrequestValidator requestValidator = new MockNotificationrequestValidator();
+        requestValidator.MockResponseResponse.AddError("Sender is Invalid").AddError("Recipient is invalid");
         NotificationRule senderRule = new()
         {
             Sender = "sender",
@@ -26,12 +27,16 @@ public class NotificationServiceTest
             Key = "recipient",
             TokensRemaining = 0
         };
+        NotificationRequest notificationRequest = new("sender", "recipient", "message");
         MockCacheService mockCacheService = new()
         {
-            MockReturns = [senderRule, tokenBucket]
+            MockReturns = new()
+            {
+                {$"SenderRule:{notificationRequest.Sender}", senderRule},
+                {$"Bucket:{notificationRequest.Sender}:{notificationRequest.Recipient}", tokenBucket}
+            }
         };
         NotificationService sut = new(requestValidator, mockCacheService);
-        NotificationRequest notificationRequest = new("sender", "recipient", "message");
 
         // Act
         await sut.Notify(notificationRequest);
@@ -58,12 +63,16 @@ public class NotificationServiceTest
             Key = "recipient",
             TokensRemaining = 0
         };
+        NotificationRequest notificationRequest = new("sender", "recipient", "message");
         MockCacheService mockCacheService = new()
         {
-            MockReturns = [senderRule, tokenBucket]
+            MockReturns = new()
+            {
+                {$"SenderRule:{notificationRequest.Sender}", senderRule},
+                {$"Bucket:{notificationRequest.Sender}:{notificationRequest.Recipient}", tokenBucket}
+            }
         };
         NotificationService sut = new(requestValidator, mockCacheService);
-        NotificationRequest notificationRequest = new("sender", "recipient", "message");
 
         // Act
         var result = await sut.Notify(notificationRequest);
@@ -88,13 +97,17 @@ public class NotificationServiceTest
             Key = "recipient",
             TokensRemaining = 0
         };
+        NotificationRequest notificationRequest = new("sender", "recipient", "message");
         MockCacheService mockCacheService = new()
         {
-            MockReturns = [senderRule, tokenBucket],
+            MockReturns = new()
+            {
+                {$"SenderRule:{notificationRequest.Sender}", senderRule},
+                {$"Bucket:{notificationRequest.Sender}:{notificationRequest.Recipient}", tokenBucket}
+            },
             CanThrowCacheServerOffline = true
         };
         NotificationService sut = new(requestValidator, mockCacheService);
-        NotificationRequest notificationRequest = new("sender", "recipient", "message");
 
         // Act
         var result = await sut.Notify(notificationRequest);
@@ -108,12 +121,16 @@ public class NotificationServiceTest
     {
         // Arrange
         MockNotificationrequestValidator requestValidator = new();
+        NotificationRequest notificationRequest = new("invalid_sender", "recipient", "message");
         MockCacheService mockCacheService = new()
         {
-            MockReturns = [null, null]
+            MockReturns = new()
+            {
+                {$"SenderRule:{notificationRequest.Sender}", null},
+                {$"Bucket:{notificationRequest.Sender}:{notificationRequest.Recipient}", null}
+            }
         };
         NotificationService sut = new(requestValidator, mockCacheService);
-        NotificationRequest notificationRequest = new("invalid_sender", "recipient", "message");
 
         // Act
         var result = await sut.Notify(notificationRequest);
@@ -132,6 +149,7 @@ public class NotificationServiceTest
             RateLimit = 2,
             TimeSpanInSeconds = 10
         };
+        NotificationRequest notificationRequest = new("sender", "recipient", "message");
         NotificationTokenBucket tokenBucket = new()
         {
             Key = "recipient",
@@ -139,16 +157,21 @@ public class NotificationServiceTest
         };
         MockCacheService mockCacheService = new()
         {
-            MockReturns = [senderRule, tokenBucket]
+            MockReturns = new()
+            {
+                {$"SenderRule:{notificationRequest.Sender}", senderRule},
+                {$"Bucket:{notificationRequest.Sender}:{notificationRequest.Recipient}", null}
+            }
         };
         NotificationService sut = new(requestValidator, mockCacheService);
-        NotificationRequest notificationRequest = new("sender", "recipient", "message");
 
         // Act
         var result = await sut.Notify(notificationRequest);
 
         // Assert
-        Assert.Equal(2, mockCacheService.CacheCalls);
+        Assert.Equal(2, mockCacheService.CacheFindCalls);
+        Assert.Equal(1, mockCacheService.CacheDecreaseCalls);
+        Assert.Equal(1, mockCacheService.CacheCreateCalls);
         List<string> expectedKeys = new() { $"SenderRule:{notificationRequest.Sender}", $"Bucket:{notificationRequest.Sender}:{notificationRequest.Recipient}" };
         Assert.Equal(expectedKeys, mockCacheService.KeysSearched);
     }
@@ -168,12 +191,16 @@ public class NotificationServiceTest
             Key = "recipient",
             TokensRemaining = 0
         };
+        NotificationRequest notificationRequest = new("sender", "recipient", "message");
         MockCacheService mockCacheService = new()
         {
-            MockReturns = [senderRule, tokenBucket]
+            MockReturns = new()
+            {
+                {$"SenderRule:{notificationRequest.Sender}", senderRule},
+                {$"Bucket:{notificationRequest.Sender}:{notificationRequest.Recipient}", $"{tokenBucket.TokensRemaining}"}
+            }
         };
         NotificationService sut = new(requestValidator, mockCacheService);
-        NotificationRequest notificationRequest = new("sender", "recipient", "message");
 
         // Act
         var result = await sut.Notify(notificationRequest);
@@ -197,12 +224,16 @@ public class NotificationServiceTest
             Key = "recipient",
             TokensRemaining = 2
         };
+        NotificationRequest notificationRequest = new("sender", "recipient", "message");
         MockCacheService mockCacheService = new()
         {
-            MockReturns = [senderRule, tokenBucket]
+            MockReturns = new()
+            {
+                {$"SenderRule:{notificationRequest.Sender}", senderRule},
+                {$"Bucket:{notificationRequest.Sender}:{notificationRequest.Recipient}", $"{tokenBucket.TokensRemaining}"}
+            }
         };
         NotificationService sut = new(requestValidator, mockCacheService);
-        NotificationRequest notificationRequest = new("sender", "recipient", "message");
 
         // Act
         var result = await sut.Notify(notificationRequest);
@@ -210,7 +241,7 @@ public class NotificationServiceTest
         // Assert
         Assert.True(result.HasSucceed);
         Assert.Equal(NotificationResponseCode.Success, result.StatusCode);
-        Assert.True(string.IsNullOrEmpty(result.ErroMessage));
+        Assert.Equal($"Notification to {notificationRequest.Recipient} from {notificationRequest.Sender} was sent!", result.Message);
     }
 
 }

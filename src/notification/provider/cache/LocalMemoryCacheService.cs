@@ -39,13 +39,14 @@ public class LocalMemoryCacheService : ICacheService
         }
     }
 
-    public Task<bool> DecreaseValue(string key)
+    public Task<string?> DecreaseValue(string key)
     {
         ICacheEntry? cacheEntry = _memoryCache.Get<ICacheEntry>(key);
+        if (cacheEntry == null) return Task.FromResult<string?>(null);
         long value = long.Parse(cacheEntry!.Value!.ToString()!);
         value -= 1;
         cacheEntry.Value = value;
-        return Task.FromResult(true);
+        return Task.FromResult<string?>(value.ToString());
     }
 
     public Task<CacheResponse<TEntity>?> Find<TEntity>(CacheRequest request) where TEntity : class
