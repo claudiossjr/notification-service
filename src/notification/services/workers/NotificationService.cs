@@ -40,7 +40,7 @@ public class NotificationService : INotificationService
         try
         {
             findNotificationRuleTask = await _cacheService.Find<NotificationRule>(new(senderRuleKey));
-            findNotificationTokenBucketTask = await _cacheService.DecreaseValue(new(recipientTokenBucketKey));
+            findNotificationTokenBucketTask = await _cacheService.IncreaseValue(new(recipientTokenBucketKey));
         }
         catch (CacheServerOfflineException)
         {
@@ -66,7 +66,7 @@ public class NotificationService : INotificationService
         {
             if (string.IsNullOrEmpty(recipientTokenBucketResponse))
             {
-                recipientTokenBucketResponse = senderRule.RateLimit.ToString();
+                recipientTokenBucketResponse = "0";
                 // Criar TokenBucket
                 bool couldCreate = await _cacheService.Create(recipientTokenBucketKey, recipientTokenBucketResponse!, senderRule.ExpiresInMilliseconds);
                 if (couldCreate == false)
@@ -81,7 +81,7 @@ public class NotificationService : INotificationService
             return new(false, NotificationResponseCode.FailedDependency, $"Cannot get cached item.");
         }
 
-        if (long.Parse(recipientTokenBucketResponse!) <= 0)
+        if (senderRule.RateLimit - long.Parse(recipientTokenBucketResponse!) <= 0)
         {
             return new(false, NotificationResponseCode.TooManyRequest, "Number of calls exceed the limit.");
         }

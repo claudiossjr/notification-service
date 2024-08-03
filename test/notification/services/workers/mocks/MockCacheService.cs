@@ -18,6 +18,8 @@ public class MockCacheService : ICacheService
 
     public List<string> KeysSearched { get; set; } = [];
 
+    public string? ValueCreated { get; set; }
+
     public Task<CacheResponse<TEntity>?> Find<TEntity>(CacheRequest request) where TEntity : class
     {
         KeysSearched.Add(request.Key);
@@ -31,6 +33,7 @@ public class MockCacheService : ICacheService
     public Task<bool> Create(string key, string value, long? expireInSeconds = null)
     {
         CacheCreateCalls++;
+        ValueCreated = value;
         return Task.FromResult(true);
     }
 
@@ -52,5 +55,12 @@ public class MockCacheService : ICacheService
     {
         await Task.Yield();
         return true;
+    }
+
+    public async Task<string?> IncreaseValue(string key)
+    {
+        CacheDecreaseCalls++;
+        string? returnValue = await Find(new CacheRequest(key));
+        return returnValue;
     }
 }

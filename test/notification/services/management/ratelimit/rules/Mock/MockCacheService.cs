@@ -48,6 +48,13 @@ public class MockCacheService : ICacheService
         return new CacheResponse<TEntity>(request.Key, (TEntity?)FindResult);
     }
 
+    public async Task<string?> IncreaseValue(string key)
+    {
+        await Task.Yield();
+        FunctionCalls.Add("IncreaseValue");
+        throw new NotImplementedException();
+    }
+
     public async Task<bool> Remove(string key)
     {
         await Task.Yield();

@@ -40,6 +40,20 @@ public class LocalMemoryCacheService : ICacheService
         }
     }
 
+    public async Task<string?> IncreaseValue(string key)
+    {
+        await Task.Yield();
+        ICacheEntry? cacheEntry = _memoryCache.Get<ICacheEntry>(key);
+        if (cacheEntry == null)
+        {
+            return null;
+        }
+        long value = long.Parse(cacheEntry!.Value!.ToString()!);
+        value += 1;
+        cacheEntry.Value = value;
+        return value.ToString();
+    }
+
     public async Task<string?> DecreaseValue(string key)
     {
         await Task.Yield();

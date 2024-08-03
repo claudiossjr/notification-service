@@ -173,6 +173,7 @@ public class NotificationServiceTest
         Assert.Equal(2, mockCacheService.CacheFindCalls);
         Assert.Equal(1, mockCacheService.CacheDecreaseCalls);
         Assert.Equal(1, mockCacheService.CacheCreateCalls);
+        Assert.Equal("0", mockCacheService.ValueCreated);
         List<string> expectedKeys = new() { CacheKeyNameHelper.GetNotificationRuleKey(notificationRequest.Sender), CacheKeyNameHelper.GetNotificationTokenBucketKey(notificationRequest.Sender, notificationRequest.Recipient) };
         Assert.Equal(expectedKeys, mockCacheService.KeysSearched);
     }
@@ -190,7 +191,7 @@ public class NotificationServiceTest
         NotificationTokenBucket tokenBucket = new()
         {
             Key = "recipient",
-            TokensRemaining = 0
+            TokensRemaining = senderRule.RateLimit + 1
         };
         NotificationRequest notificationRequest = new("sender", "recipient", "message");
         MockCacheService mockCacheService = new()
@@ -223,7 +224,7 @@ public class NotificationServiceTest
         NotificationTokenBucket tokenBucket = new()
         {
             Key = "recipient",
-            TokensRemaining = 2
+            TokensRemaining = 0
         };
         NotificationRequest notificationRequest = new("sender", "recipient", "message");
         MockCacheService mockCacheService = new()
