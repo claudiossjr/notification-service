@@ -5,7 +5,7 @@ using Notification.Domain.Interfaces;
 using Notification.Domain.Interfaces.Request;
 using Notification.Domain.Interfaces.Response;
 
-namespace Notification.Provider.Cache;
+namespace Notification.Provider.Cache.Local;
 
 public class LocalMemoryCacheService : ICacheService
 {

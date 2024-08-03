@@ -4,6 +4,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Notification.Domain.Entites;
 using Notification.Domain.Interfaces.Request;
 using Notification.Domain.Interfaces.Response;
+using Notification.Provider.Cache.Local;
 
 namespace Notification.Provider.Cache.Test;
 

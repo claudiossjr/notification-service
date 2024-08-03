@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\src\notification\provider\cache\Notification.Provider.Cache.csproj" />
+    <ProjectReference Include="..\..\..\..\src\notification\provider\cache\local\Notification.Provider.Cache.Local.csproj" />
   </ItemGroup>
 
 </Project>
