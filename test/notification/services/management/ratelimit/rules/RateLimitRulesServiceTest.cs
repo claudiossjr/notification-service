@@ -24,7 +24,7 @@ public class RateLimitRulesServiceTest
         {
             Sender = "",
             RateLimit = 2,
-            TimeSpanInSeconds = 10
+            ExpiresInMilliseconds = 10
         };
         _mockCacheService.FindResult = rule;
 
@@ -46,7 +46,7 @@ public class RateLimitRulesServiceTest
         {
             Sender = "",
             RateLimit = 2,
-            TimeSpanInSeconds = 10
+            ExpiresInMilliseconds = 10
         };
         _mockCacheService.CreateResult = true;
 
@@ -86,7 +86,7 @@ public class RateLimitRulesServiceTest
         {
             Sender = "DeleteKey",
             RateLimit = 2,
-            TimeSpanInSeconds = 10
+            ExpiresInMilliseconds = 10
         };
         _mockCacheService.FindResult = rule;
         _mockCacheService.DeleteResult = true;
@@ -111,7 +111,7 @@ public class RateLimitRulesServiceTest
         {
             Sender = "DeleteKey",
             RateLimit = 2,
-            TimeSpanInSeconds = 10
+            ExpiresInMilliseconds = 10
         };
         _mockCacheService.FindResult = rule;
         _mockCacheService.DeleteResult = true;
@@ -138,7 +138,7 @@ public class RateLimitRulesServiceTest
         {
             Sender = "DeleteKey",
             RateLimit = 2,
-            TimeSpanInSeconds = 10
+            ExpiresInMilliseconds = 10
         };
         _mockCacheService.FindResult = rule;
         _mockCacheService.DeleteResult = true;

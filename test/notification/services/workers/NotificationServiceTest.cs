@@ -21,7 +21,7 @@ public class NotificationServiceTest
         {
             Sender = "sender",
             RateLimit = 2,
-            TimeSpanInSeconds = 10
+            ExpiresInMilliseconds = 10
         };
         NotificationTokenBucket tokenBucket = new()
         {
@@ -57,7 +57,7 @@ public class NotificationServiceTest
         {
             Sender = "sender",
             RateLimit = 2,
-            TimeSpanInSeconds = 10
+            ExpiresInMilliseconds = 10
         };
         NotificationTokenBucket tokenBucket = new()
         {
@@ -91,7 +91,7 @@ public class NotificationServiceTest
         {
             Sender = "sender",
             RateLimit = 2,
-            TimeSpanInSeconds = 10
+            ExpiresInMilliseconds = 10
         };
         NotificationTokenBucket tokenBucket = new()
         {
@@ -148,7 +148,7 @@ public class NotificationServiceTest
         {
             Sender = "sender",
             RateLimit = 2,
-            TimeSpanInSeconds = 10
+            ExpiresInMilliseconds = 10
         };
         NotificationRequest notificationRequest = new("sender", "recipient", "message");
         NotificationTokenBucket tokenBucket = new()
@@ -185,7 +185,7 @@ public class NotificationServiceTest
         {
             Sender = "sender",
             RateLimit = 2,
-            TimeSpanInSeconds = 10
+            ExpiresInMilliseconds = 10
         };
         NotificationTokenBucket tokenBucket = new()
         {
@@ -218,7 +218,7 @@ public class NotificationServiceTest
         {
             Sender = "sender",
             RateLimit = 2,
-            TimeSpanInSeconds = 10
+            ExpiresInMilliseconds = 10
         };
         NotificationTokenBucket tokenBucket = new()
         {

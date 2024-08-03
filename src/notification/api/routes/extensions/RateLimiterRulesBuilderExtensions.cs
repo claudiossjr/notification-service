@@ -1,3 +1,5 @@
+using Notification.Api.Controllers;
+
 namespace Notification.Api.Routes.Extensions;
 
 public static class RateLimiterRulesBuilderExtensions
@@ -6,31 +8,19 @@ public static class RateLimiterRulesBuilderExtensions
     {
         RouteGroupBuilder group = builder.MapGroup("/rules").WithTags("Manage Sender Rules");
 
-        group.MapGet("/{sender}", (string sender) =>
-        {
-            return $"Searching by Sender {sender}";
-        })
+        group.MapGet("/{sender}", RateLimitRuleController.Get)
         .WithName("GetSenderConfig")
         .WithOpenApi();
 
-        group.MapPost("/", () =>
-        {
-            return $"Created";
-        })
+        group.MapPost("/", RateLimitRuleController.Create)
         .WithName("CreateSenderConfig")
         .WithOpenApi();
 
-        group.MapPut("/", () =>
-        {
-            return "Updating";
-        })
+        group.MapPut("/", RateLimitRuleController.Update)
         .WithName("UpdateSenderConfig")
         .WithOpenApi();
 
-        group.MapDelete("/{key}", (string key) =>
-        {
-            return $"Deleting key {key}";
-        })
+        group.MapDelete("/{sender}", RateLimitRuleController.Delete)
         .WithName("DeleteSenderConfig")
         .WithOpenApi();
 

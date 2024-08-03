@@ -1,24 +1,35 @@
 @Notification.Api_HostAddress = http://localhost:5281
 
-GET {{Notification.Api_HostAddress}}/notification/rules/sender
+GET {{Notification.Api_HostAddress}}/notification/rules/marketing
 Accept: application/json
 
 ###
 
 POST {{Notification.Api_HostAddress}}/notification/rules/
 Accept: application/json
+Content-Type: application/json
 
 {
+    "sender": "marketing",
+    "rateLimit": 2,
+    "expiresInMilliseconds": 60000
 }
 
 ###
 
 PUT {{Notification.Api_HostAddress}}/notification/rules/
 Accept: application/json
+Content-Type: application/json
+
+{
+    "sender": "marketing",
+    "rateLimit": 4,
+    "expiresInMilliseconds": 60000
+}
 
 ###
 
-DELETE  {{Notification.Api_HostAddress}}/notification/rules/sender_key
+DELETE  {{Notification.Api_HostAddress}}/notification/rules/marketing
 Accept: application/json
 
 ###

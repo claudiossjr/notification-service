@@ -68,7 +68,7 @@ public class NotificationService : INotificationService
             {
                 recipientTokenBucketResponse = senderRule.RateLimit.ToString();
                 // Criar TokenBucket
-                bool couldCreate = await _cacheService.Create(recipientTokenBucketKey, recipientTokenBucketResponse!, senderRule.TimeSpanInSeconds);
+                bool couldCreate = await _cacheService.Create(recipientTokenBucketKey, recipientTokenBucketResponse!, senderRule.ExpiresInMilliseconds);
                 if (couldCreate == false)
                 {
                     return await Notify(request);

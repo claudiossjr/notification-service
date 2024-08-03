@@ -5,8 +5,8 @@ Accept: application/json
 Content-Type: application/json
 
 {
-    "Sender": "sender",
-    "Recipient": "recipient",
-    "Message": "message"
+    "Sender": "marketing",
+    "Recipient": "claudio",
+    "Message": "Ola Claudio"
 }
 ###

@@ -53,7 +53,7 @@ public class LocalMemoryCacheServiceTest
         {
             Sender = "Sender",
             RateLimit = 2,
-            TimeSpanInSeconds = 60
+            ExpiresInMilliseconds = 60
         };
         await _sut.Create("key", JsonSerializer.Serialize(rule));
 
@@ -63,7 +63,7 @@ public class LocalMemoryCacheServiceTest
         Assert.NotNull(response);
         Assert.Equal(rule.Sender, response.Value!.Sender);
         Assert.Equal(rule.RateLimit, response.Value!.RateLimit);
-        Assert.Equal(rule.TimeSpanInSeconds, response.Value!.TimeSpanInSeconds);
+        Assert.Equal(rule.ExpiresInMilliseconds, response.Value!.ExpiresInMilliseconds);
 
     }
 
@@ -78,7 +78,7 @@ public class LocalMemoryCacheServiceTest
         {
             Sender = "Sender",
             RateLimit = 2,
-            TimeSpanInSeconds = expireInSeconds
+            ExpiresInMilliseconds = expireInSeconds
         };
         await _sut.Create(searchKey, JsonSerializer.Serialize(rule), expireInSeconds);
 
@@ -89,8 +89,8 @@ public class LocalMemoryCacheServiceTest
         Assert.NotNull(response);
         Assert.Equal(rule.Sender, response.Value!.Sender);
         Assert.Equal(rule.RateLimit, response.Value!.RateLimit);
-        Assert.Equal(rule.TimeSpanInSeconds, response.Value!.TimeSpanInSeconds);
-        await Task.Delay(TimeSpan.FromMilliseconds(rule.TimeSpanInSeconds));
+        Assert.Equal(rule.ExpiresInMilliseconds, response.Value!.ExpiresInMilliseconds);
+        await Task.Delay(TimeSpan.FromMilliseconds(rule.ExpiresInMilliseconds));
         response = await _sut.Find<NotificationRule>(new CacheRequest(searchKey));
         Assert.NotNull(response);
         Assert.Equal(searchKey, response.Key);
