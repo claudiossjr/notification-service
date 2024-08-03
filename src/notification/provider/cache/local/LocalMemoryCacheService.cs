@@ -18,15 +18,15 @@ public class LocalMemoryCacheService : ICacheService
         _memoryCache = memoryCache;
     }
 
-    public async Task<bool> Create(string key, string value, long? expireInSeconds = null)
+    public async Task<bool> Create(string key, string value, long? expireIn = null)
     {
         await Task.Yield();
         try
         {
             ICacheEntry cacheEntry = _memoryCache.CreateEntry(key).SetValue(value);
-            if (expireInSeconds.HasValue)
+            if (expireIn.HasValue)
             {
-                _memoryCache.Set(key, cacheEntry, TimeSpan.FromSeconds(expireInSeconds.Value));
+                _memoryCache.Set(key, cacheEntry, TimeSpan.FromMilliseconds(expireIn.Value));
             }
             else
             {

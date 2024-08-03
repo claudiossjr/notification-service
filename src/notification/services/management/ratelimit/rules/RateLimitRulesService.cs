@@ -24,17 +24,29 @@ public class RateLimitRulesService : IRateLimitRuleService
     public async Task<bool> Create(NotificationRule rule)
     {
         string ruleKey = CacheKeyNameHelper.GetNotificationRuleKey(rule.Sender);
-        NotificationRule? findOnCache = await FindByKey(ruleKey);
-        if (findOnCache != null)
+        NotificationRule? ruleOnCache = await FindByKey(ruleKey);
+        if (ruleOnCache != null)
         {
             return false;
         }
-        return await _cacheService.Create(ruleKey, JsonSerializer.Serialize(rule), rule.TimeSpanInSeconds);
+        return await _cacheService.Create(ruleKey, JsonSerializer.Serialize(rule));
     }
 
     public async Task<bool> Delete(string key)
     {
-        return await _cacheService.Remove(key);
+        try
+        {
+            NotificationRule? ruleOnCache = await FindByKey(key);
+            if (ruleOnCache == null)
+            {
+                return false;
+            }
+            return await _cacheService.Remove(key);
+        }
+        catch (Exception)
+        {
+            return false;
+        }
     }
 
 
@@ -43,13 +55,13 @@ public class RateLimitRulesService : IRateLimitRuleService
         try
         {
             string ruleKey = CacheKeyNameHelper.GetNotificationRuleKey(rule.Sender);
-            NotificationRule? findOnCache = await FindByKey(ruleKey);
-            if (findOnCache == null)
+            NotificationRule? ruleOnCache = await FindByKey(ruleKey);
+            if (ruleOnCache == null)
             {
                 return false;
             }
-            await Delete(ruleKey);
-            await Create(rule);
+            await _cacheService.Remove(ruleKey);
+            await _cacheService.Create(ruleKey, JsonSerializer.Serialize(rule));
             return true;
         }
         catch (Exception)

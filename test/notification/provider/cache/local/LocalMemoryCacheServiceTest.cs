@@ -73,7 +73,7 @@ public class LocalMemoryCacheServiceTest
     {
         // Arrange
         string searchKey = "key";
-        long expireInSeconds = 1;
+        long expireInSeconds = 20;
         NotificationRule rule = new()
         {
             Sender = "Sender",
@@ -90,7 +90,7 @@ public class LocalMemoryCacheServiceTest
         Assert.Equal(rule.Sender, response.Value!.Sender);
         Assert.Equal(rule.RateLimit, response.Value!.RateLimit);
         Assert.Equal(rule.TimeSpanInSeconds, response.Value!.TimeSpanInSeconds);
-        await Task.Delay(TimeSpan.FromSeconds(rule.TimeSpanInSeconds));
+        await Task.Delay(TimeSpan.FromMilliseconds(rule.TimeSpanInSeconds));
         response = await _sut.Find<NotificationRule>(new CacheRequest(searchKey));
         Assert.NotNull(response);
         Assert.Equal(searchKey, response.Key);
@@ -101,12 +101,12 @@ public class LocalMemoryCacheServiceTest
     public async void ShouldDecrementValueIfKeyExists()
     {
         string searchKey = "test";
-        long expirationTime = 1;
+        long expirationTime = 20;
         await _sut.Create("test", "2", expirationTime);
 
         string? response = await _sut.Find(new CacheRequest(searchKey));
         string? decreasedResponse = await _sut.DecreaseValue(searchKey);
-        await Task.Delay(TimeSpan.FromSeconds(expirationTime));
+        await Task.Delay(TimeSpan.FromMilliseconds(expirationTime));
         string? expiredResponse = await _sut.Find(new CacheRequest(searchKey));
 
         Assert.NotNull(response);

@@ -9,3 +9,6 @@ run-notification-test:
 
 run-local-cache-provider-test:
 	dotnet test --filter "UnitTest=LocalMemoryCache"
+
+run-rate-limit-rules-test:
+	dotnet test --filter "UnitTest=RateLimitRuleTest"

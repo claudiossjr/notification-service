@@ -69,6 +69,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{728560
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Helpers", "src\common\helpers\Common.Helpers.csproj", "{16894C5B-20B8-483D-AD71-FA74465E2E7C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "management", "management", "{AF6FCDF4-3641-41C2-AE70-8D85B85C6FBB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ratelimit", "ratelimit", "{839D2584-95F2-4154-B4D7-2F77FD4A67A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notification.Services.Management.RateLimit.Rules.Test", "test\notification\services\management\ratelimit\rules\Notification.Services.Management.RateLimit.Rules.Test.csproj", "{88D26167-8E50-434C-B815-760022835286}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -115,6 +121,10 @@ Global
 		{16894C5B-20B8-483D-AD71-FA74465E2E7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16894C5B-20B8-483D-AD71-FA74465E2E7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16894C5B-20B8-483D-AD71-FA74465E2E7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88D26167-8E50-434C-B815-760022835286}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88D26167-8E50-434C-B815-760022835286}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88D26167-8E50-434C-B815-760022835286}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88D26167-8E50-434C-B815-760022835286}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -151,5 +161,8 @@ Global
 		{D833CF59-97A7-46E3-A9B3-7BD3506AA43A} = {DCC52304-6E66-4BC5-9480-05407DEC0C34}
 		{7285601A-8CB5-4AEB-BA5F-41A9522DEF82} = {5C809DA8-54D7-4477-91E0-5599B529623D}
 		{16894C5B-20B8-483D-AD71-FA74465E2E7C} = {7285601A-8CB5-4AEB-BA5F-41A9522DEF82}
+		{AF6FCDF4-3641-41C2-AE70-8D85B85C6FBB} = {F3E44463-ABCA-4FFD-9E22-553675BF0459}
+		{839D2584-95F2-4154-B4D7-2F77FD4A67A0} = {AF6FCDF4-3641-41C2-AE70-8D85B85C6FBB}
+		{88D26167-8E50-434C-B815-760022835286} = {839D2584-95F2-4154-B4D7-2F77FD4A67A0}
 	EndGlobalSection
 EndGlobal
