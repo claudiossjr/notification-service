@@ -1,6 +1,9 @@
 build:
 	dotnet build
 
+run-api:
+	dotnet run --project src/notification/api/Notification.Api.csproj
+
 run-test:
 	dotnet test
 

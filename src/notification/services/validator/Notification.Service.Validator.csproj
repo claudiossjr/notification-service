@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\domain\entities\Notification.Domain.Entities.csproj" />
+    <ProjectReference Include="..\..\domain\interfaces\Notification.Domain.Interfaces.csproj" />
+    <ProjectReference Include="..\..\..\common\helpers\Common.Helpers.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

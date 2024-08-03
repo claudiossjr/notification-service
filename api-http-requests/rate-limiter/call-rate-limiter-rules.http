@@ -1,0 +1,24 @@
+@Notification.Api_HostAddress = http://localhost:5281
+
+GET {{Notification.Api_HostAddress}}/notification/rules/sender
+Accept: application/json
+
+###
+
+POST {{Notification.Api_HostAddress}}/notification/rules/
+Accept: application/json
+
+{
+}
+
+###
+
+PUT {{Notification.Api_HostAddress}}/notification/rules/
+Accept: application/json
+
+###
+
+DELETE  {{Notification.Api_HostAddress}}/notification/rules/sender_key
+Accept: application/json
+
+###
