@@ -6,7 +6,7 @@ public static class RateLimiterRulesBuilderExtensions
 {
     public static RouteGroupBuilder UseRateLimiterRulesRoutes(this RouteGroupBuilder builder)
     {
-        RouteGroupBuilder group = builder.MapGroup("/rules").WithTags("Manage Sender Rules");
+        RouteGroupBuilder group = builder.MapGroup("/rules").WithTags("Manage Rate Limit Rules");
 
         group.MapGet("/{sender}", RateLimitRuleController.Get)
         .WithName("GetSenderConfig")
