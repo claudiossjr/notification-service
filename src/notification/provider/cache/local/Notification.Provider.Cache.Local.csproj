@@ -2,7 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\domain\interfaces\Notification.Domain.Interfaces.csproj" />
-    <ProjectReference Include="..\..\..\domain\entities\Notification.Domain.csproj" />
+    <ProjectReference Include="..\..\..\domain\entities\Notification.Domain.Entities.csproj" />
     <ProjectReference Include="..\..\..\domain\exceptions\Notification.Domain.Exceptions.csproj" />
   </ItemGroup>
 

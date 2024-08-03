@@ -21,7 +21,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\src\notification\provider\cache\local\Notification.Provider.Cache.Local.csproj" />
+    <ProjectReference Include="..\..\..\..\src\notification\services\workers\Notification.Service.Workers.csproj" />
+    <ProjectReference Include="..\..\..\..\src\notification\domain\interfaces\Notification.Domain.Interfaces.csproj" />
+    <ProjectReference Include="..\..\..\..\src\notification\domain\exceptions\Notification.Domain.Exceptions.csproj" />
   </ItemGroup>
 
 </Project>
