@@ -23,7 +23,7 @@ Content-Type: application/json
 
 {
     "sender": "marketing",
-    "rateLimit": 4,
+    "rateLimit": 2,
     "expiresInMilliseconds": 60000
 }
 
