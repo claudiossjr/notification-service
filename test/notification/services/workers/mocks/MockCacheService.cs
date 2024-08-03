@@ -41,10 +41,16 @@ public class MockCacheService : ICacheService
         return Task.FromResult(MockReturns?[request.Key]?.ToString());
     }
 
-    async Task<string?> ICacheService.DecreaseValue(string key)
+    public async Task<string?> DecreaseValue(string key)
     {
         CacheDecreaseCalls++;
         string? returnValue = await Find(new CacheRequest(key));
         return returnValue;
+    }
+
+    public async Task<bool> Remove(string key)
+    {
+        await Task.Yield();
+        return true;
     }
 }

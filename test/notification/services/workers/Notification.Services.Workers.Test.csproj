@@ -24,6 +24,7 @@
     <ProjectReference Include="..\..\..\..\src\notification\services\workers\Notification.Service.Workers.csproj" />
     <ProjectReference Include="..\..\..\..\src\notification\domain\interfaces\Notification.Domain.Interfaces.csproj" />
     <ProjectReference Include="..\..\..\..\src\notification\domain\exceptions\Notification.Domain.Exceptions.csproj" />
+    <ProjectReference Include="..\..\..\..\src\common\helpers\Common.Helpers.csproj" />
   </ItemGroup>
 
 </Project>

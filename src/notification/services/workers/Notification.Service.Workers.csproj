@@ -5,6 +5,7 @@
     <ProjectReference Include="..\..\domain\enums\Notification.Domain.Enums.csproj" />
     <ProjectReference Include="..\..\domain\interfaces\Notification.Domain.Interfaces.csproj" />
     <ProjectReference Include="..\..\domain\exceptions\Notification.Domain.Exceptions.csproj" />
+    <ProjectReference Include="..\..\..\common\helpers\Common.Helpers.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

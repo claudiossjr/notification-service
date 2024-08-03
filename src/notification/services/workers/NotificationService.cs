@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using Common.Helpers;
 using Notification.Domain.Entites;
 using Notification.Domain.Enums;
 using Notification.Domain.Exceptions.Cache;
@@ -34,8 +35,8 @@ public class NotificationService : INotificationService
 
         CacheResponse<NotificationRule>? findNotificationRuleTask;
         string? findNotificationTokenBucketTask;
-        string senderRuleKey = $"SenderRule:{request.Sender}";
-        string recipientTokenBucketKey = $"Bucket:{request.Sender}:{request.Recipient}";
+        string senderRuleKey = CacheKeyNameHelper.GetNotificationRuleKey(request.Sender);
+        string recipientTokenBucketKey = CacheKeyNameHelper.GetNotificationTokenBucketKey(request.Sender, request.Recipient);
         try
         {
             findNotificationRuleTask = await _cacheService.Find<NotificationRule>(new(senderRuleKey));

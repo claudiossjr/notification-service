@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Common.Helpers;
 using Notification.Domain.Entites;
 using Notification.Domain.Enums;
 using Notification.Domain.Interfaces.Request;
@@ -32,8 +33,8 @@ public class NotificationServiceTest
         {
             MockReturns = new()
             {
-                {$"SenderRule:{notificationRequest.Sender}", senderRule},
-                {$"Bucket:{notificationRequest.Sender}:{notificationRequest.Recipient}", tokenBucket}
+                {CacheKeyNameHelper.GetNotificationRuleKey(notificationRequest.Sender), senderRule},
+                {CacheKeyNameHelper.GetNotificationTokenBucketKey(notificationRequest.Sender, notificationRequest.Recipient), tokenBucket}
             }
         };
         NotificationService sut = new(requestValidator, mockCacheService);
@@ -68,8 +69,8 @@ public class NotificationServiceTest
         {
             MockReturns = new()
             {
-                {$"SenderRule:{notificationRequest.Sender}", senderRule},
-                {$"Bucket:{notificationRequest.Sender}:{notificationRequest.Recipient}", tokenBucket}
+                {CacheKeyNameHelper.GetNotificationRuleKey(notificationRequest.Sender), senderRule},
+                {CacheKeyNameHelper.GetNotificationTokenBucketKey(notificationRequest.Sender, notificationRequest.Recipient), tokenBucket}
             }
         };
         NotificationService sut = new(requestValidator, mockCacheService);
@@ -102,8 +103,8 @@ public class NotificationServiceTest
         {
             MockReturns = new()
             {
-                {$"SenderRule:{notificationRequest.Sender}", senderRule},
-                {$"Bucket:{notificationRequest.Sender}:{notificationRequest.Recipient}", tokenBucket}
+                {CacheKeyNameHelper.GetNotificationRuleKey(notificationRequest.Sender), senderRule},
+                {CacheKeyNameHelper.GetNotificationTokenBucketKey(notificationRequest.Sender, notificationRequest.Recipient), tokenBucket}
             },
             CanThrowCacheServerOffline = true
         };
@@ -126,8 +127,8 @@ public class NotificationServiceTest
         {
             MockReturns = new()
             {
-                {$"SenderRule:{notificationRequest.Sender}", null},
-                {$"Bucket:{notificationRequest.Sender}:{notificationRequest.Recipient}", null}
+                {CacheKeyNameHelper.GetNotificationRuleKey(notificationRequest.Sender), null},
+                {CacheKeyNameHelper.GetNotificationTokenBucketKey(notificationRequest.Sender, notificationRequest.Recipient), null}
             }
         };
         NotificationService sut = new(requestValidator, mockCacheService);
@@ -159,8 +160,8 @@ public class NotificationServiceTest
         {
             MockReturns = new()
             {
-                {$"SenderRule:{notificationRequest.Sender}", senderRule},
-                {$"Bucket:{notificationRequest.Sender}:{notificationRequest.Recipient}", null}
+                {CacheKeyNameHelper.GetNotificationRuleKey(notificationRequest.Sender), senderRule},
+                {CacheKeyNameHelper.GetNotificationTokenBucketKey(notificationRequest.Sender, notificationRequest.Recipient), null}
             }
         };
         NotificationService sut = new(requestValidator, mockCacheService);
@@ -172,7 +173,7 @@ public class NotificationServiceTest
         Assert.Equal(2, mockCacheService.CacheFindCalls);
         Assert.Equal(1, mockCacheService.CacheDecreaseCalls);
         Assert.Equal(1, mockCacheService.CacheCreateCalls);
-        List<string> expectedKeys = new() { $"SenderRule:{notificationRequest.Sender}", $"Bucket:{notificationRequest.Sender}:{notificationRequest.Recipient}" };
+        List<string> expectedKeys = new() { CacheKeyNameHelper.GetNotificationRuleKey(notificationRequest.Sender), CacheKeyNameHelper.GetNotificationTokenBucketKey(notificationRequest.Sender, notificationRequest.Recipient) };
         Assert.Equal(expectedKeys, mockCacheService.KeysSearched);
     }
 
@@ -196,8 +197,8 @@ public class NotificationServiceTest
         {
             MockReturns = new()
             {
-                {$"SenderRule:{notificationRequest.Sender}", senderRule},
-                {$"Bucket:{notificationRequest.Sender}:{notificationRequest.Recipient}", $"{tokenBucket.TokensRemaining}"}
+                {CacheKeyNameHelper.GetNotificationRuleKey(notificationRequest.Sender), senderRule},
+                {CacheKeyNameHelper.GetNotificationTokenBucketKey(notificationRequest.Sender, notificationRequest.Recipient), $"{tokenBucket.TokensRemaining}"}
             }
         };
         NotificationService sut = new(requestValidator, mockCacheService);
@@ -229,8 +230,8 @@ public class NotificationServiceTest
         {
             MockReturns = new()
             {
-                {$"SenderRule:{notificationRequest.Sender}", senderRule},
-                {$"Bucket:{notificationRequest.Sender}:{notificationRequest.Recipient}", $"{tokenBucket.TokensRemaining}"}
+                {CacheKeyNameHelper.GetNotificationRuleKey(notificationRequest.Sender), senderRule},
+                {CacheKeyNameHelper.GetNotificationTokenBucketKey(notificationRequest.Sender, notificationRequest.Recipient), $"{tokenBucket.TokensRemaining}"}
             }
         };
         NotificationService sut = new(requestValidator, mockCacheService);
