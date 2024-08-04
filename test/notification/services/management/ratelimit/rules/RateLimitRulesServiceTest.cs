@@ -20,12 +20,7 @@ public class RateLimitRulesServiceTest
     public async void ShouldReturnFalseIfKeyAlreadyExistsOnCreation()
     {
         // Arrange
-        NotificationRule rule = new()
-        {
-            Sender = "",
-            RateLimit = 2,
-            ExpiresInMilliseconds = 10
-        };
+        NotificationRule rule = new("sender", 2, 10);
         _mockCacheService.FindResult = rule;
 
         // Act
@@ -42,12 +37,7 @@ public class RateLimitRulesServiceTest
     public async void ShouldCallFindBeforeCreatingData()
     {
         // Arrange
-        NotificationRule rule = new()
-        {
-            Sender = "",
-            RateLimit = 2,
-            ExpiresInMilliseconds = 10
-        };
+        NotificationRule rule = new("sender", 2, 10);
         _mockCacheService.CreateResult = true;
 
         // Act
@@ -82,12 +72,7 @@ public class RateLimitRulesServiceTest
     public async void ShouldCallFindBeforeDeleting()
     {
         // Arrange
-        NotificationRule rule = new()
-        {
-            Sender = "DeleteKey",
-            RateLimit = 2,
-            ExpiresInMilliseconds = 10
-        };
+        NotificationRule rule = new("deleteKey", 2, 10);
         _mockCacheService.FindResult = rule;
         _mockCacheService.DeleteResult = true;
         string deleteKey = "delete_key";
@@ -107,12 +92,7 @@ public class RateLimitRulesServiceTest
     public async void ShouldReturnFalseIfKeyNotExistsOnUpdate()
     {
         // Arrange
-        NotificationRule rule = new()
-        {
-            Sender = "DeleteKey",
-            RateLimit = 2,
-            ExpiresInMilliseconds = 10
-        };
+        NotificationRule rule = new("deleteKey", 2, 10);
         _mockCacheService.FindResult = rule;
         _mockCacheService.DeleteResult = true;
         _mockCacheService.CreateResult = true;
@@ -134,12 +114,7 @@ public class RateLimitRulesServiceTest
     public async void ShouldCallFindAndDeleteBeforeUpdating()
     {
         // Arrange
-        NotificationRule rule = new()
-        {
-            Sender = "DeleteKey",
-            RateLimit = 2,
-            ExpiresInMilliseconds = 10
-        };
+        NotificationRule rule = new("deleteKey", 2, 10);
         _mockCacheService.FindResult = rule;
         _mockCacheService.DeleteResult = true;
         _mockCacheService.CreateResult = true;

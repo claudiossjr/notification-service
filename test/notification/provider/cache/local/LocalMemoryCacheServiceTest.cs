@@ -49,12 +49,7 @@ public class LocalMemoryCacheServiceTest
     public async void ShouldReturnTheCacheResultIfKeyExists()
     {
         // Arrange
-        NotificationRule rule = new()
-        {
-            Sender = "Sender",
-            RateLimit = 2,
-            ExpiresInMilliseconds = 60
-        };
+        NotificationRule rule = new("Sender", 2, 60);
         await _sut.Create("key", JsonSerializer.Serialize(rule));
 
         // Act
@@ -74,12 +69,7 @@ public class LocalMemoryCacheServiceTest
         // Arrange
         string searchKey = "key";
         long expireInSeconds = 20;
-        NotificationRule rule = new()
-        {
-            Sender = "Sender",
-            RateLimit = 2,
-            ExpiresInMilliseconds = expireInSeconds
-        };
+        NotificationRule rule = new("Sender", expireInSeconds, expireInSeconds);
         await _sut.Create(searchKey, JsonSerializer.Serialize(rule), expireInSeconds);
 
         // Act

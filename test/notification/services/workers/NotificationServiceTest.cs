@@ -17,12 +17,7 @@ public class NotificationServiceTest
         // Arrange
         MockNotificationrequestValidator requestValidator = new MockNotificationrequestValidator();
         requestValidator.MockResponseResponse.AddError("Sender is Invalid").AddError("Recipient is invalid");
-        NotificationRule senderRule = new()
-        {
-            Sender = "sender",
-            RateLimit = 2,
-            ExpiresInMilliseconds = 10
-        };
+        NotificationRule senderRule = new("sender", 2, 10);
         NotificationTokenBucket tokenBucket = new()
         {
             Key = "recipient",
@@ -53,12 +48,7 @@ public class NotificationServiceTest
         // Arrange
         MockNotificationrequestValidator requestValidator = new();
         requestValidator.MockResponseResponse.AddError("Sender is Invalid").AddError("Recipient is invalid");
-        NotificationRule senderRule = new()
-        {
-            Sender = "sender",
-            RateLimit = 2,
-            ExpiresInMilliseconds = 10
-        };
+        NotificationRule senderRule = new("sender", 2, 10);
         NotificationTokenBucket tokenBucket = new()
         {
             Key = "recipient",
@@ -87,12 +77,7 @@ public class NotificationServiceTest
     {
         // Arrange
         MockNotificationrequestValidator requestValidator = new();
-        NotificationRule senderRule = new()
-        {
-            Sender = "sender",
-            RateLimit = 2,
-            ExpiresInMilliseconds = 10
-        };
+        NotificationRule senderRule = new("sender", 2, 10);
         NotificationTokenBucket tokenBucket = new()
         {
             Key = "recipient",
@@ -144,12 +129,7 @@ public class NotificationServiceTest
     public async void ShouldCallCacheServiceTwiceForBothKeys()
     {
         MockNotificationrequestValidator requestValidator = new();
-        NotificationRule senderRule = new()
-        {
-            Sender = "sender",
-            RateLimit = 2,
-            ExpiresInMilliseconds = 10
-        };
+        NotificationRule senderRule = new("sender", 2, 10);
         NotificationRequest notificationRequest = new("sender", "recipient", "message");
         NotificationTokenBucket tokenBucket = new()
         {
@@ -182,12 +162,7 @@ public class NotificationServiceTest
     public async void ShouldReturnTooManyRequestsIfRemainingTokenIsZero()
     {
         MockNotificationrequestValidator requestValidator = new();
-        NotificationRule senderRule = new()
-        {
-            Sender = "sender",
-            RateLimit = 2,
-            ExpiresInMilliseconds = 10
-        };
+        NotificationRule senderRule = new("sender", 2, 10);
         NotificationTokenBucket tokenBucket = new()
         {
             Key = "recipient",
@@ -215,12 +190,7 @@ public class NotificationServiceTest
     public async void ShouldReturnSuccessIfThereIsRemainingToken()
     {
         MockNotificationrequestValidator requestValidator = new();
-        NotificationRule senderRule = new()
-        {
-            Sender = "sender",
-            RateLimit = 2,
-            ExpiresInMilliseconds = 10
-        };
+        NotificationRule senderRule = new("sender", 2, 10);
         NotificationTokenBucket tokenBucket = new()
         {
             Key = "recipient",
