@@ -1,7 +1,10 @@
 using Common.Helpers;
 using Microsoft.AspNetCore.Mvc;
+using Notification.Api.Controllers.Requests;
 using Notification.Domain.Entites;
+using Notification.Domain.Exceptions.Parser;
 using Notification.Domain.Interfaces;
+using Notification.Domain.Interfaces.Parsers;
 
 namespace Notification.Api.Controllers;
 
@@ -18,23 +21,39 @@ public static class RateLimitRuleController
         return Results.Json(rule, statusCode: 200);
     }
 
-    public static async Task<IResult> Create([FromBody] NotificationRule rule, [FromServices] IServiceProvider serviceProvider)
+    public static async Task<IResult> Create([FromBody] NotificationRuleRequest rule, [FromServices] IServiceProvider serviceProvider)
     {
         await Task.Yield();
         using IServiceScope scope = serviceProvider.CreateScope();
         IRateLimitRuleService rateLimitRuleService = scope.ServiceProvider.GetRequiredService<IRateLimitRuleService>();
-        bool create = await rateLimitRuleService.Create(rule);
-        if (create) return Results.Created();
+        IExpirationInputParserService expirationInputParser = scope.ServiceProvider.GetRequiredService<IExpirationInputParserService>();
+        try{
+            long expiration = await expirationInputParser.ParseInputToMilliseconds(rule.ExpiredIn);
+            bool create = await rateLimitRuleService.Create(new NotificationRule(rule.Sender, rule.RateLimit, expiration));
+            if (create) return Results.Created();
+        }
+        catch(ExpirationExpressionNotValidException ex)
+        {
+            return Results.BadRequest(ex.Message);
+        }
         return Results.BadRequest();
     }
 
-    public static async Task<IResult> Update([FromBody] NotificationRule rule, [FromServices] IServiceProvider serviceProvider)
+    public static async Task<IResult> Update([FromBody] NotificationRuleRequest rule, [FromServices] IServiceProvider serviceProvider)
     {
         await Task.Yield();
         using IServiceScope scope = serviceProvider.CreateScope();
         IRateLimitRuleService rateLimitRuleService = scope.ServiceProvider.GetRequiredService<IRateLimitRuleService>();
-        bool updated = await rateLimitRuleService.Update(rule);
-        if (updated) return Results.Ok();
+        IExpirationInputParserService expirationInputParser = scope.ServiceProvider.GetRequiredService<IExpirationInputParserService>();
+        try{
+            long expiration = await expirationInputParser.ParseInputToMilliseconds(rule.ExpiredIn);
+            bool updated = await rateLimitRuleService.Update(new NotificationRule(rule.Sender, rule.RateLimit, expiration));
+            if (updated) return Results.Ok();
+        }
+        catch(ExpirationExpressionNotValidException ex)
+        {
+            return Results.BadRequest(ex.Message);
+        }
         return Results.BadRequest();
     }
 

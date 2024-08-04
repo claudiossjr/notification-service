@@ -2,5 +2,6 @@ namespace Notification.Domain.Interfaces.Parsers;
 
 public interface IExpirationInputParserService
 {
-    Task<long> ParseInput(string input);
+    Task<long> ParseInputToSeconds(string input);
+    Task<long> ParseInputToMilliseconds(string input);
 }

@@ -4,6 +4,24 @@ It was developed using a local cache and has no persistence for the rate limit r
 
 Running the project can be done as described below.
 
+## Important Fact
+In order to help customers to write expiration time expression easily, you must write it like described below.
+- 1 hour -> "1h"
+- 1 hour and 30 minutes -> "1h:30m"
+- 2 days and 2 hours -> "2d:2h"
+
+**Association Table**:
+- Days -> d
+- hours -> h
+- minutes -> m
+- seconds -> s
+
+Example with every symbol: "1d:2h:30m:14s" 
+
+> Note that the time expression should not contain a repeated identifier. Otherwise it will return false.
+
+
+
 ## Running using dotnet command
 
 > **Pre-reqs**:

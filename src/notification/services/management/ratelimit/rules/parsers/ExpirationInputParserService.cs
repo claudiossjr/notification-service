@@ -12,7 +12,19 @@ public class ExpirationInputParserService : IExpirationInputParserService
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    public async Task<long> ParseInput(string input)
+    
+
+    public async Task<long> ParseInputToSeconds(string input)
+    {
+        return await ParseInput(input);
+    }
+
+    public async Task<long> ParseInputToMilliseconds(string input)
+    {
+        return await ParseInput(input) * 1000;
+    }
+
+    private async Task<long> ParseInput(string input)
     {
         await Task.Yield();
         input = input?.ToLower() ?? "";
