@@ -4,8 +4,8 @@ It was developed using a local cache and has no persistence for the rate limit r
 
 Running the project can be done as described below.
 
-## Important Fact
-In order to help customers to write expiration time expression easily, you must write it like described below.
+## !! Important Note
+In order to help customers to write expiration time expression easily, it has a time expression parser. Expiration time expression should be written as describred below:
 - 1 hour -> "1h"
 - 1 hour and 30 minutes -> "1h:30m"
 - 2 days and 2 hours -> "2d:2h"
