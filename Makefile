@@ -15,3 +15,6 @@ run-local-cache-provider-test:
 
 run-rate-limit-rules-test:
 	dotnet test --filter "UnitTest=RateLimitRuleTest"
+
+run-expiration-parser-test:
+	dotnet test --filter "UnitTest=ExpirationParserInput"

@@ -23,6 +23,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\..\src\notification\domain\interfaces\Notification.Domain.Interfaces.csproj" />
     <ProjectReference Include="..\..\..\..\..\..\src\notification\services\management\ratelimit\rules\Notification.Services.Management.RateLimit.Rules.csproj" />
+    <ProjectReference Include="..\..\..\..\..\..\src\notification\domain\exceptions\Notification.Domain.Exceptions.csproj" />
   </ItemGroup>
 
 </Project>
