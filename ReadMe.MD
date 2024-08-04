@@ -18,7 +18,7 @@ In order to help customers to write expiration time expression easily, you must 
 
 Example with every symbol: "1d:2h:30m:14s" 
 
-> Note that the time expression should not contain a repeated identifier. Otherwise it will return false.
+> Note that the time expression should not contain a repeated identifier. Otherwise it will not be able to register the rule.
 
 
 
