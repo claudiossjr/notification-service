@@ -78,4 +78,34 @@ public class ExpirationInputParserService : IExpirationInputParserService
     {
         return splitParts.Select(p => Regex.Match(p, @"[dhms]").Value).Distinct().Count() != splitParts.Count();
     }
+
+    public async Task<string> ConvertTimeToExpressionFromMilliseconds(long time)
+    {
+        long timeInSeconds = time/1000;
+        return await ConvertTimeExpression(timeInSeconds);
+    }
+
+    public async Task<string> ConvertTimeToExpressionFromSeconds(long time)
+    {
+        return await ConvertTimeExpression(time);
+    }
+
+    private async Task<string> ConvertTimeExpression(long time)
+    {
+        await Task.Yield();
+        List<string> timeTokens = ["d", "h", "m", "s"];
+        List<string> timeExpressions = [];
+        foreach (string timeTokenIdentifier in timeTokens)
+        {   
+            long offset = GetOffset(timeTokenIdentifier);
+            long numberPart = time / offset;
+            time %= offset;
+            if (numberPart > 0)
+            {
+                string timeExpression = $"{numberPart}{timeTokenIdentifier}";
+                timeExpressions.Add(timeExpression);
+            }
+        }
+        return string.Join(":", timeExpressions);
+    }
 }

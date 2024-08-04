@@ -47,9 +47,11 @@ public class ExpirationInputParserServiceTest
 
         // Act 
         long expiredIn = await _sut.ParseInputToSeconds(input);
+        string timeExpression = await _sut.ConvertTimeToExpressionFromSeconds(expectedValue);
 
         // Assert
-         Assert.Equal(expectedValue, expiredIn);
+        Assert.Equal(expectedValue, expiredIn);
+        Assert.Equal(input, timeExpression);
 
     }
 
@@ -64,9 +66,11 @@ public class ExpirationInputParserServiceTest
 
         // Act 
         long expiredIn = await _sut.ParseInputToMilliseconds(input);
+        string timeExpression = await _sut.ConvertTimeToExpressionFromMilliseconds(expectedValue);
 
         // Assert
-         Assert.Equal(expectedValue, expiredIn);
+        Assert.Equal(expectedValue, expiredIn);
+        Assert.Equal(input, timeExpression);
 
     }
 }

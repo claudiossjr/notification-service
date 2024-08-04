@@ -1,6 +1,7 @@
 using Common.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Notification.Api.Controllers.Requests;
+using Notification.Api.Controllers.Response;
 using Notification.Domain.Entites;
 using Notification.Domain.Exceptions.Parser;
 using Notification.Domain.Interfaces;
@@ -15,10 +16,13 @@ public static class RateLimitRuleController
         await Task.Yield();
         using IServiceScope scope = serviceProvider.CreateScope();
         IRateLimitRuleService rateLimitRuleService = scope.ServiceProvider.GetRequiredService<IRateLimitRuleService>();
+        IExpirationInputParserService expirationInputParser = scope.ServiceProvider.GetRequiredService<IExpirationInputParserService>();
         string searchKey = CacheKeyNameHelper.GetNotificationRuleKey(sender);
         NotificationRule? rule = await rateLimitRuleService.FindByKey(searchKey);
         if (rule == null) return Results.NotFound();
-        return Results.Json(rule, statusCode: 200);
+        string expiredIn = await expirationInputParser.ConvertTimeToExpressionFromMilliseconds(rule.ExpiresInMilliseconds);
+        NotificationRuleResponse response = new(rule.Sender, rule.RateLimit, expiredIn);
+        return Results.Json(response, statusCode: 200);
     }
 
     public static async Task<IResult> Create([FromBody] NotificationRuleRequest rule, [FromServices] IServiceProvider serviceProvider)
