@@ -10,7 +10,7 @@ In order to help customers to write expiration time expression easily, it has a 
 - 1 hour and 30 minutes -> "1h:30m"
 - 2 days and 2 hours -> "2d:2h"
 
-**Association Table**:
+**Time Synmbols**:
 - Days -> d
 - hours -> h
 - minutes -> m
