@@ -9,7 +9,7 @@ public static class ProviderServicesResolverExtension
     public static IServiceCollection AddProviderServiceResolver(this IServiceCollection services)
     {
         services.AddMemoryCache();
-        services.AddSingleton<ICacheService, LocalMemoryCacheService>();
+        services.AddScoped<ICacheService, LocalMemoryCacheService>();
         return services;
     }
 }

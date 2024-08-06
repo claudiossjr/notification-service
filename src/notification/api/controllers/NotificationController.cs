@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Notification.Domain.Interfaces;
 using Notification.Domain.Interfaces.Request;
