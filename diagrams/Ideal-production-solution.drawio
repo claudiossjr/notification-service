@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="0pBRfoJegKhvDdZDhVVB" name="Page-1">
-        <mxGraphModel dx="2372" dy="2114" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="2807" dy="2404" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -40,13 +40,16 @@
                     <mxGeometry x="60" y="120" width="80" height="80" as="geometry"/>
                 </mxCell>
                 <mxCell id="9" value="Settings" style="swimlane;whiteSpace=wrap;html=1;" parent="4" vertex="1">
-                    <mxGeometry x="180" y="296.5" width="305" height="200" as="geometry"/>
+                    <mxGeometry x="180" y="160" width="305" height="336.5" as="geometry"/>
                 </mxCell>
                 <mxCell id="53" style="edgeStyle=none;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;startArrow=none;startFill=0;" parent="9" source="10" target="52" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="10" value="Rules&lt;br&gt;Service" style="rounded=0;whiteSpace=wrap;html=1;" parent="9" vertex="1">
-                    <mxGeometry x="40" y="50" width="120" height="60" as="geometry"/>
+                    <mxGeometry x="60" y="240" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="88" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;startArrow=none;startFill=0;endArrow=diamondThin;endFill=1;" edge="1" parent="9" source="51" target="10">
+                    <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="51" value="Rate-Limit Time Expression Parser" style="rounded=0;whiteSpace=wrap;html=1;" parent="9" vertex="1">
                     <mxGeometry x="40" y="120" width="120" height="60" as="geometry"/>
@@ -117,7 +120,7 @@
                 <mxCell id="42" value="Push" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="4" vertex="1">
                     <mxGeometry x="695" y="460" width="50" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="46" style="edgeStyle=none;html=1;startArrow=blockThin;startFill=1;" parent="4" source="45" target="7" edge="1">
+                <mxCell id="46" style="edgeStyle=none;html=1;startArrow=blockThin;startFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="4" source="10" target="7" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="45" value="" style="outlineConnect=0;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;shape=mxgraph.aws3.cache_node;fillColor=#2E73B8;gradientColor=none;" parent="4" vertex="1">
@@ -227,7 +230,7 @@
                     <mxGeometry x="220" y="30" width="75" height="100" as="geometry"/>
                 </mxCell>
                 <mxCell id="79" value="Bulk Notification&lt;br&gt;Status" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="4" vertex="1">
-                    <mxGeometry x="755" y="900" width="110" height="40" as="geometry"/>
+                    <mxGeometry x="745" y="900" width="110" height="40" as="geometry"/>
                 </mxCell>
                 <mxCell id="82" style="edgeStyle=none;html=1;entryX=1;entryY=0.75;entryDx=0;entryDy=0;startArrow=none;startFill=0;" parent="4" source="80" target="7" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
@@ -241,7 +244,13 @@
                 <mxCell id="85" value="Send webhook request&lt;br&gt;based on the URL sent inside&amp;nbsp;&lt;br&gt;notification request" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=#666666;fillColor=#f5f5f5;fontColor=#333333;" parent="4" vertex="1">
                     <mxGeometry x="230" y="1110" width="180" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="86" style="edgeStyle=none;html=1;entryX=0;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="4" source="56" target="7">
+                <mxCell id="86" style="edgeStyle=none;html=1;entryX=0;entryY=1;entryDx=0;entryDy=0;" parent="4" source="56" target="7" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="87" value="" style="outlineConnect=0;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;shape=mxgraph.aws3.cache_node;fillColor=#2E73B8;gradientColor=none;" vertex="1" parent="4">
+                    <mxGeometry x="510" y="667" width="60" height="63" as="geometry"/>
+                </mxCell>
+                <mxCell id="89" style="edgeStyle=none;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;startArrow=classic;startFill=1;endArrow=classic;endFill=1;" edge="1" parent="4" source="7" target="87">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
             </root>
